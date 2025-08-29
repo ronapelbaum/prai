@@ -3,16 +3,8 @@ import Prayer from './components/prayer'
 import LanguageToggle, { type Lang } from './components/LanguageToggle'
 import './App.css'
 
-type ServerInfo = {
-  name: string
-  version: string
-  environment: string
-  host: string
-  port: number
-}
 
 function App() {
-  const [info, setInfo] = useState<ServerInfo | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lang, setLang] = useState<Lang>('he')
@@ -29,8 +21,6 @@ function App() {
       try {
         const res = await fetch(`${serverBaseUrl}/server-info`)
         if (!res.ok) throw new Error(`Request failed: ${res.status}`)
-        const data: ServerInfo = await res.json()
-        setInfo(data)
       } catch (e: any) {
         setError(e.message || 'Failed to load server info')
       } finally {
@@ -81,8 +71,5 @@ function App() {
     </div>
   )
 }
-
-function Label({ children }: { children: React.ReactNode }) { return <div style={{ opacity: 0.8 }}>{children}</div> }
-function Value({ children }: { children: React.ReactNode }) { return <div style={{ fontWeight: 600 }}>{children}</div> }
 
 export default App
